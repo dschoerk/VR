@@ -34,7 +34,7 @@ public class NetworkBase : MonoBehaviour {
 	
 	public int serverPort = 12346;
 	public string serverAddress="localhost";
-	public int maxPlayers = 2;
+	public int maxPlayers = 10;
 	public int netwSendRate = 25;
 	
 	public string gameTypeName = "VRUE_Test15788_type";
@@ -58,7 +58,7 @@ public class NetworkBase : MonoBehaviour {
 		try
 		{
 			//// Use NAT punchthrough if no public IP present
-			NetworkConnectionError error = Network.InitializeServer(2, serverPort, !Network.HavePublicAddress());
+			NetworkConnectionError error = Network.InitializeServer(maxPlayers, serverPort, !Network.HavePublicAddress());
 			//NetworkConnectionError error = Network.InitializeServer(2, serverPort, false);
 			if (error != NetworkConnectionError.NoError)
 			{	
