@@ -75,9 +75,9 @@ public class ExclusiveAccessObjectController : NetworkObjectController
                  *	the default NetworkPlayer depending on "select"
                 ----------------------------------------------------------------- */
 
-				this.player = Network.player;
-
-
+				this.player = info.sender;
+				if(!select)
+					this.player = defaultAccessPlayer;
 
 				return true;
                 // ------------------ VRUE Tasks END ----------------------------
@@ -97,10 +97,7 @@ public class ExclusiveAccessObjectController : NetworkObjectController
         /* ------------------ VRUE Tasks START   -------------------
          * 	- return true if the player is the one that has currently selected the object
         ----------------------------------------------------------------- */
-
-		if (this.player == player) 
-			return true;
-		return false;
+		return (this.player == player);
 
 		// ------------------ VRUE Tasks END ----------------------------
     }
@@ -125,12 +122,7 @@ public class ExclusiveAccessObjectController : NetworkObjectController
 
             // ------------------ VRUE Tasks END ----------------------------
         }
-        else
-        {
-            return false;
-        }
         return false;
-        
     }
     /// <summary>
     /// If object is selected by Player disconnecting then we have to unselect.
