@@ -48,7 +48,10 @@ public class NetworkITSelectionGUI : ITSelectionGUI
 		- set name for interaction game object
 		- set name for trigger marker
 		----------------------------------------------------------------- */
+		base.StartUpData ();
 
+		// HACK
+		_vh = "VirtualHand(Clone)";
 
 		// ------------------ VRUE Tasks END ----------------------------
 	}
