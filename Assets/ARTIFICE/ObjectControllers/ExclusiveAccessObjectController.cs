@@ -33,7 +33,7 @@ using System.Collections;
 /// </summary>
 public class ExclusiveAccessObjectController : NetworkObjectController
 {
-    /// <summary>
+	/// <summary>
     /// The default client used if the object is not accessed.
     /// </summary>
     /// 
@@ -51,7 +51,7 @@ public class ExclusiveAccessObjectController : NetworkObjectController
 	 *	have to implement these semantics yourself in the code below).
 	 ----------------------------------------------------------------- */
 
-
+	private NetworkPlayer player;
 
 	// ------------------ VRUE Tasks END ----------------------------
 
@@ -75,18 +75,11 @@ public class ExclusiveAccessObjectController : NetworkObjectController
                  *	the default NetworkPlayer depending on "select"
                 ----------------------------------------------------------------- */
 
-return true;//replace me
+				this.player = Network.player;
 
 
 
-
-
-
-
-
-
-
-
+				return true;
                 // ------------------ VRUE Tasks END ----------------------------
 				
             }
@@ -105,15 +98,9 @@ return true;//replace me
          * 	- return true if the player is the one that has currently selected the object
         ----------------------------------------------------------------- */
 
-return false; //replace me
-
-
-
-
-
-
-
-
+		if (this.player == player) 
+			return true;
+		return false;
 
 		// ------------------ VRUE Tasks END ----------------------------
     }
@@ -132,11 +119,9 @@ return false; //replace me
 			 * the object or the object is not selected.
 			----------------------------------------------------------------- */
 
-return true; //replace me
-
-
-
-
+			if (this.player.guid == player.guid || this.player.guid == defaultAccessPlayer.guid)
+				return true;
+			return false;
 
             // ------------------ VRUE Tasks END ----------------------------
         }
@@ -160,7 +145,7 @@ return true; //replace me
 			 * 	object to an unselected state.
 			 ----------------------------------------------------------------- */
 
-
+			this.player = defaultAccessPlayer;
 
 			// ------------------ VRUE Tasks END ----------------------------
             

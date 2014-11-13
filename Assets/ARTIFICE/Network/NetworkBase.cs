@@ -98,21 +98,42 @@ public class NetworkBase : MonoBehaviour {
 		 * 	- Print error message to console/log-file, in case it should fail
 		 * -------------------------------------------------------------- */
 
-		//MasterServer.RequestHostList (gameName);
-		HostData[] hosts = MasterServer.PollHostList ();
-		Debug.Log ("found " + hosts.Length + " hosts");
+		#region v1
+//		//MasterServer.RequestHostList (gameName);
+//		HostData[] hosts = MasterServer.PollHostList ();
+//		Debug.Log ("found " + hosts.Length + " hosts");
+//
+//		//Connecting to the server
+//		//NetworkConnectionError error = Network.Connect("192.168.1.109", port);
+//		if (hosts.Length > 0) 
+//		{
+//			NetworkConnectionError error = Network.Connect (hosts [0]);
+//			//NetworkConnectionError error = Network.Connect (Network.player.guid);
+//			if (error != NetworkConnectionError.NoError) 
+//			{
+//					System.Console.WriteLine ("NetworkConnectionError: " + error.ToString ());
+//					Debug.LogError (error);
+//			}
+//			Debug.Log (Network.peerType);
+//		}
+//		else
+//		{
+//			System.Console.WriteLine ("No hosts found");
+//		}
+		#endregion
 
+		#region v2
 		//Connecting to the server
-		//NetworkConnectionError error = Network.Connect("192.168.1.109", port);
-		NetworkConnectionError error = Network.Connect(hosts[0]);
-		//NetworkConnectionError error = Network.Connect (Network.player.guid);
+		NetworkConnectionError error = Network.Connect(host, port);
 		if (error != NetworkConnectionError.NoError) 
 		{
 			System.Console.WriteLine ("NetworkConnectionError: " + error.ToString ());
 			Debug.LogError (error);
 		}
-		Debug.Log(Network.peerType);
-		// ------------------ VRUE Tasks END ----------------------------
+		Debug.Log (Network.peerType);
+		#endregion
+
+			// ------------------ VRUE Tasks END ----------------------------
 	}
 
 	/// <summary>
