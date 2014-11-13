@@ -61,7 +61,6 @@ public class UserManagementObjectController : ExclusiveAccessObjectController
 			/* ------------------ VRUE Tasks START  -------------------
 			 * 	- find out if the NetworkPlayer is the owner of the object
 			----------------------------------------------------------------- */
-
 			if (this.AccessGrantedPlayer.guid == player.guid)
 				return true;
 			return false;
