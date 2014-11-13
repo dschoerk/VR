@@ -43,8 +43,8 @@ public class UserManagementObjectController : ExclusiveAccessObjectController
 	{
 		get
 		{
-			if (accessGrantedPlayer == null)
-				accessGrantedPlayer = UserManager.instance.getNetworkPlayer(this.accessGrantedName);
+			//if (accessGrantedPlayer == null)
+			accessGrantedPlayer = UserManager.instance.getNetworkPlayer(this.accessGrantedName);
 			return accessGrantedPlayer;
 		}
 	}
