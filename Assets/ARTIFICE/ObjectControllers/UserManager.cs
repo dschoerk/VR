@@ -26,6 +26,8 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class UserManager : ScriptableObject {
 
@@ -42,16 +44,7 @@ public class UserManager : ScriptableObject {
 	 * 	- Add a data-structure, that can help you map the NetworkPlayers to name-strings
     ----------------------------------------------------------------- */
 
-
-
-
-
-
-
-
-
-
-
+	private Dictionary<NetworkPlayer, int> NetworkPlayerNameNrMap = new Dictionary<NetworkPlayer, int>();
 
 	// ------------------ VRUE Tasks END ----------------------------
 
@@ -68,6 +61,8 @@ public class UserManager : ScriptableObject {
             }
         }
     }
+
+
     /// <summary>
     /// Called by UserManagementObjectController on the server whenever a new player has successfully connected.
     /// </summary>
@@ -86,28 +81,16 @@ public class UserManager : ScriptableObject {
  		* 	- Make an RPC-call that sends the player name to client and show it in the GUI
 		----------------------------------------------------------------- */
 
+		if (!isClient)
+			return;
+
+		if (!this.NetworkPlayerNameNrMap.ContainsKey (player)) 
+			this.NetworkPlayerNameNrMap.Add (player, Enumerable.Range(1,100).Where( index => !this.NetworkPlayerNameNrMap.Values.Contains(index)).FirstOrDefault() );
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		GameObject guiObj = GameObject.Find ("GUIObj");
+		NetworkView view = guiObj.GetComponent<NetworkView> ();
+		view.RPC ("SetClientName", player, new object[]{"player" + this.NetworkPlayerNameNrMap [player]});
 
         // ------------------ VRUE Tasks END ----------------------------
     }
@@ -122,10 +105,7 @@ public class UserManager : ScriptableObject {
 		 * If a player disconnects remove it from our datastructure (if it is in there!)
         ----------------------------------------------------------------- */
 
-
-
-
-
+		this.NetworkPlayerNameNrMap.Remove (player);
 
         // ------------------ VRUE Tasks END ----------------------------
     }
@@ -142,14 +122,14 @@ public class UserManager : ScriptableObject {
          * 	and return it.
         ----------------------------------------------------------------- */
 
+		int index = 0;
+		if (!int.TryParse (playerName.Substring (6), out index))
+			return nonExistingPlayer;
 
+		NetworkPlayer player = this.NetworkPlayerNameNrMap.Where (x => x.Value == index).FirstOrDefault ().Key;
 
-
-
-
-
-
-
+		if (player != null)
+			return player;
 
         // ------------------ VRUE Tasks END ----------------------------
 		

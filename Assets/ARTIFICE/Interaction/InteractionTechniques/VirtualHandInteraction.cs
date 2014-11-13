@@ -64,7 +64,7 @@ public class VirtualHandInteraction : ObjectSelectionBase
 	            // Transform (translate and rotate) selected object depending on of virtual hand's transformation
 	            if (selected)
 	            {
-	                this.transformInter(this.transform.position, this.transform.rotation);
+  	                this.transformInter(this.transform.position, this.transform.rotation);
 	            }
 	        }else 
 	        {

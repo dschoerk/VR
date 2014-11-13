@@ -42,7 +42,7 @@ public class NetworkGUI : MonoBehaviour {
 	 * store player name
     ----------------------------------------------------------------- */
 
-
+	private string playerName = string.Empty;
 
     // ------------------ VRUE Tasks END ----------------------------
 
@@ -106,7 +106,7 @@ public class NetworkGUI : MonoBehaviour {
 	 			*	- add label for player name
     			----------------------------------------------------------------- */
 
-
+				GUILayout.Label("player name: "+ playerName);
 
 
 				// ------------------ VRUE Tasks END ----------------------------
@@ -126,12 +126,11 @@ public class NetworkGUI : MonoBehaviour {
 	 *	as a parameter
 	 ----------------------------------------------------------------- */
 
-
-
-
-
-
-
+	[RPC]
+	public void SetClientName(string clientName)
+	{
+		playerName = clientName;
+	}
 
     // ------------------ VRUE Tasks END ----------------------------
     

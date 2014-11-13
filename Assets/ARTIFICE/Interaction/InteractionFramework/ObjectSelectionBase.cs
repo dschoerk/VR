@@ -93,7 +93,7 @@ public class ObjectSelectionBase: InteractionBase
                         collidee = collidee.gameObject;//Do we need that?
                         try
                         {
-                            if (doSelect)
+                             if (doSelect)
                             {
                                 this.addInteractionObj(collidee);
                                 Debug.Log("Selected" + collidee.gameObject.GetInstanceID());

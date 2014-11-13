@@ -39,6 +39,16 @@ public class UserManagementObjectController : ExclusiveAccessObjectController
     /// </summary>
     private NetworkPlayer accessGrantedPlayer;
 
+	public NetworkPlayer AccessGrantedPlayer
+	{
+		get
+		{
+			if (accessGrantedPlayer == null)
+				accessGrantedPlayer = UserManager.instance.getNetworkPlayer(this.accessGrantedName);
+			return accessGrantedPlayer;
+		}
+	}
+
     /// <summary>
     /// Checks whether the NetworkPlayer is granted access to the object.
     /// </summary>
@@ -51,14 +61,10 @@ public class UserManagementObjectController : ExclusiveAccessObjectController
 			/* ------------------ VRUE Tasks START  -------------------
 			 * 	- find out if the NetworkPlayer is the owner of the object
 			----------------------------------------------------------------- */
-return false; //replace me
 
-
-
-
-
-
-
+			if (this.AccessGrantedPlayer.guid == player.guid)
+				return true;
+			return false;
 
             // ------------------ VRUE Tasks END ----------------------------
         }
