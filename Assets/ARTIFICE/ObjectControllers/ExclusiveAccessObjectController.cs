@@ -97,7 +97,7 @@ public class ExclusiveAccessObjectController : NetworkObjectController
         /* ------------------ VRUE Tasks START   -------------------
          * 	- return true if the player is the one that has currently selected the object
         ----------------------------------------------------------------- */
-		return (this.player == player);
+		return (this.player.guid == player.guid);
 
 		// ------------------ VRUE Tasks END ----------------------------
     }
