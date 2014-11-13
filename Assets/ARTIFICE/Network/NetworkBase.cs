@@ -37,8 +37,8 @@ public class NetworkBase : MonoBehaviour {
 	public int maxPlayers = 2;
 	public int netwSendRate = 25;
 	
-	public string gameTypeName = "MultiplayerGameType";
-	public string gameName = "My Multiplayer Game";
+	public string gameTypeName = "VRUE_Test15788_type";
+	public string gameName = "VRUE_Test15788";
 	public string comment = "VR Aufgabe 04";
 	
 	
@@ -58,8 +58,8 @@ public class NetworkBase : MonoBehaviour {
 		try
 		{
 			//// Use NAT punchthrough if no public IP present
-			//NetworkConnectionError error = Network.InitializeServer(2, serverPort, !Network.HavePublicAddress());
-			NetworkConnectionError error = Network.InitializeServer(2, serverPort, false);
+			NetworkConnectionError error = Network.InitializeServer(2, serverPort, !Network.HavePublicAddress());
+			//NetworkConnectionError error = Network.InitializeServer(2, serverPort, false);
 			if (error != NetworkConnectionError.NoError)
 			{	
 				System.Console.WriteLine ("NetworkConnectionError: " + error.ToString());
@@ -78,7 +78,13 @@ public class NetworkBase : MonoBehaviour {
 		// ------------------ VRUE Tasks END ----------------------------
 		
 	}
-	
+
+	void Awake() {
+		MasterServer.ClearHostList();
+		MasterServer.RequestHostList(gameTypeName);
+		Debug.Log ("poll hosts");
+	}
+
 	/// <summary>
 	/// Connects to server with the specified parameters.
 	/// </summary>
@@ -91,10 +97,15 @@ public class NetworkBase : MonoBehaviour {
 		 * 	- Connect to the server at adress "host" at port "port". 
 		 * 	- Print error message to console/log-file, in case it should fail
 		 * -------------------------------------------------------------- */
-		
+
+		//MasterServer.RequestHostList (gameName);
+		HostData[] hosts = MasterServer.PollHostList ();
+		Debug.Log ("found " + hosts.Length + " hosts");
+
 		//Connecting to the server
-		//NetworkConnectionError ne = Network.Connect(remoteIp,remotePort);
-		NetworkConnectionError error = Network.Connect (Network.player.guid);
+		//NetworkConnectionError error = Network.Connect("192.168.1.109", port);
+		NetworkConnectionError error = Network.Connect(hosts[0]);
+		//NetworkConnectionError error = Network.Connect (Network.player.guid);
 		if (error != NetworkConnectionError.NoError) 
 		{
 			System.Console.WriteLine ("NetworkConnectionError: " + error.ToString ());
@@ -103,7 +114,7 @@ public class NetworkBase : MonoBehaviour {
 		Debug.Log(Network.peerType);
 		// ------------------ VRUE Tasks END ----------------------------
 	}
-	
+
 	/// <summary>
 	/// Server callback
 	/// See Unity-Script-Reference

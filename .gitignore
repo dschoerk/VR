@@ -1,0 +1,5 @@
+*.sln
+*.dll
+*.csproj
+Library/*
+Temp/*
