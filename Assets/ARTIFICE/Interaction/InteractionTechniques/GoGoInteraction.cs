@@ -38,8 +38,8 @@ public class GoGoInteraction : ObjectSelectionBase
 	* 	Implement GoGo interaction technique
 	----------------------------------------------------------------- */
 	
-	private float D = 3;
-	private float k = 0.7f;
+	private float D = 6;
+	private float k = 0.2f;
 	
 	GameObject tracker = null;
 	GameObject virutalCamera = null;
@@ -138,17 +138,30 @@ public class GoGoInteraction : ObjectSelectionBase
 		// especially distance if of interest
 		
 		// polar coordinates: R, Phi, Theta? Actually not necessary, as only length of direction vector is scaled
+
+		Debug.Log ("torso pos: " + trans_torso.position);
+		float distance = (tracker.transform.position - trans_torso.position).magnitude;
+		Vector3 Rr = (tracker.transform.position - trans_torso.position).normalized;
 		
-		Vector3 vecRealHand_delta = trans_hand.position - trans_torso.position;
+		float _k = k;
+		if(distance < D)
+			_k = 0;
+		float Rv = D + _k * (distance - D) * (distance - D);
+		
+		//Update transform of the selector object (virtual hand)
+		trans_hand_gogo.position = trans_torso.position + Rr * Rv;
+		//trans_hand_gogo.localRotation = Quaternion.identity;
+
+		/*Vector3 vecRealHand_delta = trans_hand.position - trans_torso.position;
 		
 		// scale vector accordingly
 		Vector3 vecVirtHand_NonLinDelta = Vector3.zero;
 		if (vecRealHand_delta.magnitude >= D) 
-			vecVirtHand_NonLinDelta = vecRealHand_delta*k*Mathf.Pow(vecRealHand_delta.magnitude - D,2);
-		
+			vecVirtHand_NonLinDelta = vecRealHand_delta * k * Mathf.Pow(vecRealHand_delta.magnitude - D, 2);
+
 		// assemble new transformation for Gogo hand
-		trans_hand_gogo.position = trans_hand.position + vecVirtHand_NonLinDelta;
-		trans_hand_gogo.rotation = trans_hand.rotation;
+		trans_hand_gogo.position = trans_hand.position; //+ vecVirtHand_NonLinDelta;
+		trans_hand_gogo.rotation = trans_hand.rotation;*/
 		
 	}
 	
