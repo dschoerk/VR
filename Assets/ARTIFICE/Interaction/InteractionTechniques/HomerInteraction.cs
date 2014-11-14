@@ -45,6 +45,7 @@ public class HomerInteraction : ObjectSelectionBase
 	GameObject virutalCamera = null;
 	private GameObject virtualHand = null;
 	private LineRenderer lineRenderer = null;
+	private float rayLength = 1000;
 	
 	/// <summary>
 	/// </summary>
@@ -217,14 +218,14 @@ public class HomerInteraction : ObjectSelectionBase
 		}
 	}
 	
-	protected IEnumerable<RaycastHit> Pick(Ray pickRay, bool multiple)
+	protected IEnumerable<RaycastHit> Pick(Ray pickRay, bool multiple, float distance, int layerMask)
 	{
 		IList<RaycastHit> rayCastHits = new List<RaycastHit>();
 		
 		RaycastHit hitInfo;
 		if (multiple) 
 		{
-			while (Physics.Raycast (pickRay, out hitInfo)) 
+			while (Physics.Raycast (pickRay, out hitInfo, distance, layerMask)) 
 			{
 				rayCastHits.Add (hitInfo);
 				hitInfo.collider.enabled = false;
@@ -235,6 +236,8 @@ public class HomerInteraction : ObjectSelectionBase
 		{
 			rayCastHits.Add(hitInfo);
 		}
+
+		Debug.Log ("No of picks: " + rayCastHits.Count);
 		
 		return rayCastHits;
 	}
@@ -254,7 +257,7 @@ public class HomerInteraction : ObjectSelectionBase
 		
 		// show ray in scene
 		lineRenderer.SetPosition (0, ray.origin);
-		lineRenderer.SetPosition (1, ray.origin + ray.direction * 1000);
+		lineRenderer.SetPosition (1, ray.origin + ray.direction * this.rayLength);
 	}
 	
 	private Dictionary<GameObject, Color> ColideesColorMap = new Dictionary<GameObject, Color> ();
@@ -270,11 +273,27 @@ public class HomerInteraction : ObjectSelectionBase
 		
 		return myCollidees;
 	}
+
+	private int MyLayerMask
+	{
+		get
+		{
+			//return 1 << LayerMask.NameToLayer("Default");
+			//return 1 << LayerMask.NameToLayer("Ignore Raycast");
+			return LayerMask.GetMask(new string[]{
+				"Ignore Raycast"
+			});
+//			return LayerMask.GetMask(new string[]{
+//				"Default"
+//			});
+		}
+	}
 	
 	#region version 2.0
 	protected IEnumerable<RaycastHit> HomerPick(Ray pickRay, bool multiple)
 	{	
-		IEnumerable<RaycastHit> rayCastHits = Pick(pickRay, multiple);
+		//Pick(Ray pickRay, bool multiple, float distance, int layerMask)
+		IEnumerable<RaycastHit> rayCastHits = Pick(pickRay, multiple, this.rayLength, this.MyLayerMask);
 		
 		prevCollidees = this.GetCollideeEnumeration ();
 		IEnumerable<GameObject> actCollidees = from rayCastHit in rayCastHits select rayCastHit.collider.gameObject;
@@ -285,8 +304,9 @@ public class HomerInteraction : ObjectSelectionBase
 		
 		foreach (GameObject collidee in actCollidees) 
 		{
-			this.collidees.Add(collidee, collidee);
-			
+			//this.collidees.Add(collidee, collidee);
+			this.collidees.Add(collidee.GetInstanceID(), collidee);
+
 			// backup color object
 			this.BackupCollideeColor(collidee);
 			

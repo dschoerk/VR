@@ -93,8 +93,11 @@ public class VirtualHandInteraction : ObjectSelectionBase
 
             if (hasObjectController(collidee))
             {
-                collidees.Add(collidee.GetInstanceID(), collidee);
-                //Debug.Log(collidee.GetInstanceID());
+				if (!collidees.ContainsKey(collidee.GetInstanceID()))
+                	collidees.Add(collidee.GetInstanceID(), collidee);
+                else
+					collidees[collidee.GetInstanceID()]= collidee;
+				//Debug.Log(collidee.GetInstanceID());
 
                 // change color so user knows of intersection
                 collidee.renderer.material.SetColor("_Color", Color.blue);

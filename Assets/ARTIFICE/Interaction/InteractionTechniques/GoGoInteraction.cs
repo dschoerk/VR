@@ -183,7 +183,10 @@ public class GoGoInteraction : ObjectSelectionBase
 			if (hasObjectController(collidee))
 			{
 				
-				collidees.Add(collidee.GetInstanceID(), collidee);
+				if (!collidees.ContainsKey(collidee.GetInstanceID()))
+					collidees.Add(collidee.GetInstanceID(), collidee);
+				else
+					collidees[collidee.GetInstanceID()]= collidee;
 				//Debug.Log(collidee.GetInstanceID());
 				
 				// change color so user knows of intersection
