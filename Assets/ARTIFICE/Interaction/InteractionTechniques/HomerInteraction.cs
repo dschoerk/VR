@@ -56,7 +56,7 @@ public class HomerInteraction : ObjectSelectionBase
 	{
 		tracker = GameObject.Find("TrackerObject");
 		virutalCamera = GameObject.Find("VirtualCamera");
-		virtualHand = GameObject.Find ("VirtualHand");
+		virtualHand = GameObject.Find ("VirtualHand(Clone)");
 		
 		if (virtualHand != null) 
 		{

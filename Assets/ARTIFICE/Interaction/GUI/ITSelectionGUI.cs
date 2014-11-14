@@ -242,9 +242,9 @@ public class ITSelectionGUI : MonoBehaviour
 			// Make the second button.
 			string currentInteractionMethodTypeStr = this.InteractionMethods[interactionIndex].GetType().ToString();
 			string currentInteractionMarkerName = InteractionTypeMarkerNameMapping[currentInteractionMethodTypeStr];
-			
+
 			float left = Screen.width / 2 - 100;
-			float top = Screen.height / 2 - (index-this.InteractionMethods.Count())*30;
+			float top = Screen.height / 2 + (index-this.InteractionMethods.Count())*30;
 			float width = 200;
 			float height = 30;
 			
