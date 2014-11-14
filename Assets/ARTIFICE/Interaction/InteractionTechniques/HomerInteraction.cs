@@ -225,7 +225,7 @@ public class HomerInteraction : ObjectSelectionBase
 		RaycastHit hitInfo;
 		if (multiple) 
 		{
-			while (Physics.Raycast (pickRay, out hitInfo, distance, layerMask)) 
+			while (Physics.Raycast (pickRay, out hitInfo))//, distance, layerMask)) 
 			{
 				rayCastHits.Add (hitInfo);
 				hitInfo.collider.enabled = false;
