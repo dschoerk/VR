@@ -74,7 +74,7 @@ public class GoGoInteraction : ObjectSelectionBase
 		get
 		{
 			if (this.VirtualHand == null)
-				this.VirtualHand = GameObject.Find("VirtualHand");
+				this.VirtualHand = GameObject.Find("VirtualHand(Clone)");
 			
 			if (this.VirtualHand != null)
 				return this.VirtualHand.transform;
@@ -89,7 +89,7 @@ public class GoGoInteraction : ObjectSelectionBase
 		get
 		{
 			if (this.PhysicalHand == null)
-				this.PhysicalHand = GameObject.Find("PhysicalHand");
+				this.PhysicalHand = GameObject.Find("TrackerObject");
 			
 			if (this.PhysicalHand != null)
 				return this.PhysicalHand.transform;
